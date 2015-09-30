@@ -1,0 +1,35 @@
+<h1>Movies via Voodoo Black Magic</h1>
+
+<button id="button">Abracadabra</button>
+
+<div id="low-budgets">
+  <h2>Low Budget Movies i.e. Movies with a budget of 55</h2>
+</div>
+
+<div id="leo-movies">
+  <h2>Leo Movies</h2>
+</div>
+
+<script>
+$(window).ready(function(){
+
+  $("#button").on("click", function(){
+    $.getJSON("/movies.json").then(function(data){
+      var movies = data.movies;
+      console.log(movies);
+      // use underscore on the data
+      var lowBudgets = _.where(movies, {budget: 55});
+      lowBudgets.forEach(function(movie){
+        $("#low-budgets").append("<p>" + movie.title + "</p>");
+      });
+
+      var leoMovies = _.filter(movies, function(movies){
+        return(_.contains(movies.stars, "Leonardo DiCaprio"))
+      });
+      leoMovies.forEach(function(movie){
+        $("#leo-movies").append("<p>" + movie.title + "</p>");
+      });
+    });
+  })
+});
+</script>
